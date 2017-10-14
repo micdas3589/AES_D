@@ -93,7 +93,8 @@ ARCHITECTURE ARCH_ROUND OF ROUND IS
 		,X"dcd1c6cbe8e5f2ffb4b9aea3808d9a97"
 	);
 	CONSTANT MULT14 :MEMORY_BLOCK :=
-	(	,X"000e1c123836242a707e6c624846545a"
+	(
+		 X"000e1c123836242a707e6c624846545a"
 		,X"e0eefcf2d8d6c4ca909e8c82a8a6b4ba"
 		,X"dbd5c7c9e3edfff1aba5b7b9939d8f81"
 		,X"3b352729030d1f114b455759737d6f61"
@@ -134,25 +135,7 @@ BEGIN
 				COUNTER	<= (OTHERS => '0');
 			END IF;
 			IF ROUND_NR > X"0" AND ROUND_NR < X"B" THEN
-				IF COUNTER = X"0" THEN -- SUB BYTES
-					STATE(127 downto 120) <= SBOX(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7);
-					STATE(119 downto 112) <= SBOX(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7);
-					STATE(111 downto 104) <= SBOX(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7);
-					STATE(103 downto  96) <= SBOX(CONV_INTEGER(STATE(103 downto 100)))(CONV_INTEGER(STATE(99  downto  96) & "000") to CONV_INTEGER(STATE(99  downto  96) & "000")+7);
-					STATE(95  downto  88) <= SBOX(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7);
-					STATE(87  downto  80) <= SBOX(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7);
-					STATE(79  downto  72) <= SBOX(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7);
-					STATE(71  downto  64) <= SBOX(CONV_INTEGER(STATE(71  downto  68)))(CONV_INTEGER(STATE(67  downto  64) & "000") to CONV_INTEGER(STATE(67  downto  64) & "000")+7);
-					STATE(63  downto  56) <= SBOX(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7);
-					STATE(55  downto  48) <= SBOX(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7);
-					STATE(47  downto  40) <= SBOX(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7);
-					STATE(39  downto  32) <= SBOX(CONV_INTEGER(STATE(39  downto  36)))(CONV_INTEGER(STATE(35  downto  32) & "000") to CONV_INTEGER(STATE(35  downto  32) & "000")+7);
-					STATE(31  downto  24) <= SBOX(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7);
-					STATE(23  downto  16) <= SBOX(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7);
-					STATE(15  downto   8) <= SBOX(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7);
-					STATE(7   downto   0) <= SBOX(CONV_INTEGER(STATE(7   downto   4)))(CONV_INTEGER(STATE(3   downto   0) & "000") to CONV_INTEGER(STATE(3   downto   0) & "000")+7);
-				END IF;
-				IF COUNTER = X"1" THEN -- INV SHIFT ROWS
+				IF COUNTER = X"0" THEN -- INV SHIFT ROWS
 					STATE	<= STATE(127 downto 120) &
 								STATE(23  downto  16) &
 								STATE(47  downto  40) &
@@ -170,83 +153,103 @@ BEGIN
 								STATE(79  downto  72) &
 								STATE(103 downto  96);
 				END IF;
-				IF COUNTER = X"2" AND ROUND_NR /= X"A" THEN -- INV MIX COLUMNS
+				IF COUNTER = X"1" THEN -- SUB BYTES
+					STATE(127 downto 120) <= SBOX(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7);
+					STATE(119 downto 112) <= SBOX(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7);
+					STATE(111 downto 104) <= SBOX(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7);
+					STATE(103 downto  96) <= SBOX(CONV_INTEGER(STATE(103 downto 100)))(CONV_INTEGER(STATE(99  downto  96) & "000") to CONV_INTEGER(STATE(99  downto  96) & "000")+7);
+					STATE(95  downto  88) <= SBOX(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7);
+					STATE(87  downto  80) <= SBOX(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7);
+					STATE(79  downto  72) <= SBOX(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7);
+					STATE(71  downto  64) <= SBOX(CONV_INTEGER(STATE(71  downto  68)))(CONV_INTEGER(STATE(67  downto  64) & "000") to CONV_INTEGER(STATE(67  downto  64) & "000")+7);
+					STATE(63  downto  56) <= SBOX(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7);
+					STATE(55  downto  48) <= SBOX(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7);
+					STATE(47  downto  40) <= SBOX(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7);
+					STATE(39  downto  32) <= SBOX(CONV_INTEGER(STATE(39  downto  36)))(CONV_INTEGER(STATE(35  downto  32) & "000") to CONV_INTEGER(STATE(35  downto  32) & "000")+7);
+					STATE(31  downto  24) <= SBOX(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7);
+					STATE(23  downto  16) <= SBOX(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7);
+					STATE(15  downto   8) <= SBOX(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7);
+					STATE(7   downto   0) <= SBOX(CONV_INTEGER(STATE(7   downto   4)))(CONV_INTEGER(STATE(3   downto   0) & "000") to CONV_INTEGER(STATE(3   downto   0) & "000")+7);
+				END IF;
+				IF COUNTER = X"2" THEN
+					STATE		<= STATE XOR ROUND_KEY;
+				END IF;
+				IF COUNTER = X"3" THEN
+					ROUND_NR	<= ROUND_NR + 1;
+					COUNTER	<= (OTHERS => '0');
+				END IF;
+				IF COUNTER = X"3" AND ROUND_NR /= X"A" THEN -- INV MIX COLUMNS
 					-- 127-96
-					STATE(127 downto 120)	<= MULT14(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7);
-												  XOR MULT11(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7);
-												  XOR MULT13(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7);
+					STATE(127 downto 120)	<= MULT14(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7)
+												  XOR MULT11(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7)
+												  XOR MULT13(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7)
 												  XOR MULT09(CONV_INTEGER(STATE(103 downto 100)))(CONV_INTEGER(STATE(99  downto  96) & "000") to CONV_INTEGER(STATE(99  downto  96) & "000")+7);
-					STATE(119 downto 112)	<= MULT09(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7);
-												  XOR MULT14(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7);
-												  XOR MULT11(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7);
+					STATE(119 downto 112)	<= MULT09(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7)
+												  XOR MULT14(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7)
+												  XOR MULT11(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7)
 												  XOR MULT13(CONV_INTEGER(STATE(103 downto 100)))(CONV_INTEGER(STATE(99  downto  96) & "000") to CONV_INTEGER(STATE(99  downto  96) & "000")+7);
-					STATE(111 downto 104)	<= MULT13(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7);
-												  XOR MULT09(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7);
-												  XOR MULT14(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7);
+					STATE(111 downto 104)	<= MULT13(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7)
+												  XOR MULT09(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7)
+												  XOR MULT14(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7)
 												  XOR MULT11(CONV_INTEGER(STATE(103 downto 100)))(CONV_INTEGER(STATE(99  downto  96) & "000") to CONV_INTEGER(STATE(99  downto  96) & "000")+7);
-					STATE(103 downto 96)		<= MULT11(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7);
-												  XOR MULT13(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7);
-												  XOR MULT09(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7);
+					STATE(103 downto 96)		<= MULT11(CONV_INTEGER(STATE(127 downto 124)))(CONV_INTEGER(STATE(123 downto 120) & "000") to CONV_INTEGER(STATE(123 downto 120) & "000")+7)
+												  XOR MULT13(CONV_INTEGER(STATE(119 downto 116)))(CONV_INTEGER(STATE(115 downto 112) & "000") to CONV_INTEGER(STATE(115 downto 112) & "000")+7)
+												  XOR MULT09(CONV_INTEGER(STATE(111 downto 108)))(CONV_INTEGER(STATE(107 downto 104) & "000") to CONV_INTEGER(STATE(107 downto 104) & "000")+7)
 												  XOR MULT14(CONV_INTEGER(STATE(103 downto 100)))(CONV_INTEGER(STATE(99  downto  96) & "000") to CONV_INTEGER(STATE(99  downto  96) & "000")+7);
 					
 					-- 95-64
-					STATE(95 downto 88)	<= MULT14(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7);
-											  XOR MULT11(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7);
-											  XOR MULT13(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7);
+					STATE(95 downto 88)	<= MULT14(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7)
+											  XOR MULT11(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7)
+											  XOR MULT13(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7)
 											  XOR MULT09(CONV_INTEGER(STATE(71  downto  68)))(CONV_INTEGER(STATE(67  downto  64) & "000") to CONV_INTEGER(STATE(67  downto  64) & "000")+7);
-					STATE(87 downto 80)	<= MULT09(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7);
-											  XOR MULT14(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7);
-											  XOR MULT11(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7);
+					STATE(87 downto 80)	<= MULT09(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7)
+											  XOR MULT14(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7)
+											  XOR MULT11(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7)
 											  XOR MULT13(CONV_INTEGER(STATE(71  downto  68)))(CONV_INTEGER(STATE(67  downto  64) & "000") to CONV_INTEGER(STATE(67  downto  64) & "000")+7);
-					STATE(79 downto 72)	<= MULT13(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7);
-											  XOR MULT09(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7);
-											  XOR MULT14(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7);
+					STATE(79 downto 72)	<= MULT13(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7)
+											  XOR MULT09(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7)
+											  XOR MULT14(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7)
 											  XOR MULT11(CONV_INTEGER(STATE(71  downto  68)))(CONV_INTEGER(STATE(67  downto  64) & "000") to CONV_INTEGER(STATE(67  downto  64) & "000")+7);
-					STATE(71 downto 64)	<= MULT11(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7);
-											  XOR MULT13(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7);
-											  XOR MULT09(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7);
+					STATE(71 downto 64)	<= MULT11(CONV_INTEGER(STATE(95  downto  92)))(CONV_INTEGER(STATE(91  downto  88) & "000") to CONV_INTEGER(STATE(91  downto  88) & "000")+7)
+											  XOR MULT13(CONV_INTEGER(STATE(87  downto  84)))(CONV_INTEGER(STATE(83  downto  80) & "000") to CONV_INTEGER(STATE(83  downto  80) & "000")+7)
+											  XOR MULT09(CONV_INTEGER(STATE(79  downto  76)))(CONV_INTEGER(STATE(75  downto  72) & "000") to CONV_INTEGER(STATE(75  downto  72) & "000")+7)
 											  XOR MULT14(CONV_INTEGER(STATE(71  downto  68)))(CONV_INTEGER(STATE(67  downto  64) & "000") to CONV_INTEGER(STATE(67  downto  64) & "000")+7);
 					
 					-- 63-32
-					STATE(63 downto 56)	<= MULT14(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7);
-											  XOR MULT11(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7);
-											  XOR MULT13(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7);
+					STATE(63 downto 56)	<= MULT14(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7)
+											  XOR MULT11(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7)
+											  XOR MULT13(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7)
 											  XOR MULT09(CONV_INTEGER(STATE(39  downto  36)))(CONV_INTEGER(STATE(35  downto  32) & "000") to CONV_INTEGER(STATE(35  downto  32) & "000")+7);
-					STATE(55 downto 48)	<= MULT09(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7);
-											  XOR MULT14(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7);
-											  XOR MULT11(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7);
+					STATE(55 downto 48)	<= MULT09(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7)
+											  XOR MULT14(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7)
+											  XOR MULT11(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7)
 											  XOR MULT13(CONV_INTEGER(STATE(39  downto  36)))(CONV_INTEGER(STATE(35  downto  32) & "000") to CONV_INTEGER(STATE(35  downto  32) & "000")+7);
-					STATE(47 downto 40)	<= MULT13(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7);
-											  XOR MULT09(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7);
-											  XOR MULT14(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7);
+					STATE(47 downto 40)	<= MULT13(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7)
+											  XOR MULT09(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7)
+											  XOR MULT14(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7)
 											  XOR MULT11(CONV_INTEGER(STATE(39  downto  36)))(CONV_INTEGER(STATE(35  downto  32) & "000") to CONV_INTEGER(STATE(35  downto  32) & "000")+7);
-					STATE(39 downto 32)	<= MULT11(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7);
-											  XOR MULT13(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7);
-											  XOR MULT09(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7);
+					STATE(39 downto 32)	<= MULT11(CONV_INTEGER(STATE(63  downto  60)))(CONV_INTEGER(STATE(59  downto  56) & "000") to CONV_INTEGER(STATE(59  downto  56) & "000")+7)
+											  XOR MULT13(CONV_INTEGER(STATE(55  downto  52)))(CONV_INTEGER(STATE(51  downto  48) & "000") to CONV_INTEGER(STATE(51  downto  48) & "000")+7)
+											  XOR MULT09(CONV_INTEGER(STATE(47  downto  44)))(CONV_INTEGER(STATE(43  downto  40) & "000") to CONV_INTEGER(STATE(43  downto  40) & "000")+7)
 											  XOR MULT14(CONV_INTEGER(STATE(39  downto  36)))(CONV_INTEGER(STATE(35  downto  32) & "000") to CONV_INTEGER(STATE(35  downto  32) & "000")+7);
 					
 					-- 31-0
-					STATE(31 downto 24)	<= MULT14(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7);
-											  XOR MULT11(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7);
-											  XOR MULT13(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7);
+					STATE(31 downto 24)	<= MULT14(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7)
+											  XOR MULT11(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7)
+											  XOR MULT13(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7)
 											  XOR MULT09(CONV_INTEGER(STATE(7   downto   4)))(CONV_INTEGER(STATE(3   downto   0) & "000") to CONV_INTEGER(STATE(3   downto   0) & "000")+7);
-					STATE(23 downto 16)	<= MULT09(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7);
-											  XOR MULT14(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7);
-											  XOR MULT11(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7);
+					STATE(23 downto 16)	<= MULT09(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7)
+											  XOR MULT14(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7)
+											  XOR MULT11(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7)
 											  XOR MULT13(CONV_INTEGER(STATE(7   downto   4)))(CONV_INTEGER(STATE(3   downto   0) & "000") to CONV_INTEGER(STATE(3   downto   0) & "000")+7);
-					STATE(15 downto 8)	<= MULT13(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7);
-											  XOR MULT09(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7);
-											  XOR MULT14(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7);
+					STATE(15 downto 8)	<= MULT13(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7)
+											  XOR MULT09(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7)
+											  XOR MULT14(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7)
 											  XOR MULT11(CONV_INTEGER(STATE(7   downto   4)))(CONV_INTEGER(STATE(3   downto   0) & "000") to CONV_INTEGER(STATE(3   downto   0) & "000")+7);
-					STATE(7 downto 0)		<= MULT11(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7);
-											  XOR MULT13(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7);
-											  XOR MULT09(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7);
+					STATE(7 downto 0)		<= MULT11(CONV_INTEGER(STATE(31  downto  28)))(CONV_INTEGER(STATE(27  downto  24) & "000") to CONV_INTEGER(STATE(27  downto  24) & "000")+7)
+											  XOR MULT13(CONV_INTEGER(STATE(23  downto  20)))(CONV_INTEGER(STATE(19  downto  16) & "000") to CONV_INTEGER(STATE(19  downto  16) & "000")+7)
+											  XOR MULT09(CONV_INTEGER(STATE(15  downto  12)))(CONV_INTEGER(STATE(11  downto   8) & "000") to CONV_INTEGER(STATE(11  downto   8) & "000")+7)
 											  XOR MULT14(CONV_INTEGER(STATE(7   downto   4)))(CONV_INTEGER(STATE(3   downto   0) & "000") to CONV_INTEGER(STATE(3   downto   0) & "000")+7);
-				END IF;
-				IF COUNTER = X"3" THEN
-					STATE		<= STATE XOR ROUND_KEY;
-					COUNTER	<= (OTHERS => '0');
-					ROUND_NR	<= ROUND_NR + 1;
 				END IF;
 			END IF;
 		END IF;
